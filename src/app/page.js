@@ -1,4 +1,5 @@
 import Banner from "@/components/home/Banner";
+import Testimonials from "@/components/home/Testimonials";
 import WhyChooseUs from "@/components/home/WhyChooseUs";
 
 export default function Home() {
@@ -7,6 +8,7 @@ export default function Home() {
         <Banner></Banner>
 
         <WhyChooseUs></WhyChooseUs>
+        <Testimonials></Testimonials>
     </div>
   );
 }
