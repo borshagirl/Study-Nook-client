@@ -70,14 +70,14 @@ const RoomDetailsPage=async({params})=>{
 
         {
         isOwner &&
-        <>
-            <Button>
-                Edit
-            </Button>
-            <Button color="danger" >      
-                Delete
-            </Button>
-        </>
+           <>
+               <Button>
+                   Edit
+               </Button>
+               <Button color="danger" >      
+                   Delete
+               </Button>
+           </>
         }
         </div>
         </div>
@@ -85,7 +85,7 @@ const RoomDetailsPage=async({params})=>{
 
         <BookingSection room={room} />
         </div>
-        )
-        }
+      )
+    }
 
 export default RoomDetailsPage;
