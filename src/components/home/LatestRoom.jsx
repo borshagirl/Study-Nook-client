@@ -2,6 +2,8 @@
 import { Card, Button, Chip } from "@heroui/react";
 import Image from "next/image";
 import Link from "next/link";
+import { ImManWoman } from "react-icons/im";
+import { IoIosSchool } from "react-icons/io";
 
 const LatestRooms = async () => {
 
@@ -57,22 +59,11 @@ const LatestRooms = async () => {
                                             room.description
                                         }
                                     </p>
-                                    <div className="mt-4 space-y-2">
-                                        <p>
-                                            📍 Floor:
-                                            {" "}
-                                            {room.floor}
-                                        </p>
-                                        <p>
-                                            👥 Capacity:
-                                            {" "}
-                                            {room.capacity}
-                                        </p>
-                                        <p>
-                                            💲
-                                            {room.hourlyRate}/hr
-                                        </p>
-                                    </div>
+                                     <div className="mt-4">
+                                                    <p className="flex items-center gap-1"><IoIosSchool /> {room.floor}</p>
+                                                    <p className="flex items-center gap-1"><ImManWoman /> {room.capacity}</p>
+                                                    <p className="text-xl font-bold">$ {room.hourlyRate}/hr</p>
+                                                </div>
                                     <div className="flex flex-wrap gap-2 mt-5">
                                         {
                                             room.amenities
