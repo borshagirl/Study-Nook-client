@@ -71,8 +71,9 @@ const Navbar = () => {
             <Image
              src={user?.image}
              alt="profile"
-             width={40}
-             height={40}
+             width={700}
+             height={400}
+            //  priority
              className="rounded-full"
             />
             </Avatar>
@@ -80,7 +81,7 @@ const Navbar = () => {
             {user?.name}
         </p>
         
-        <Button color="danger" onClick={handleLogout} > 
+        <Button variant="danger" onClick={handleLogout} > 
             Logout
         </Button>
         </div>

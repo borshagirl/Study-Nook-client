@@ -61,6 +61,7 @@ const Testimonials = () => {
                   alt={item.name}
                   width={60}
                   height={60}
+                  priority
                   className="rounded-full object-cover w-[60px] h-[60px]"
                 />
                 <div>

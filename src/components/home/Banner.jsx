@@ -39,6 +39,7 @@ const Banner = () => {
                         alt="Study Room"
                         width={700}
                         height={400}
+                        priority
                         className="rounded-xl h-90 w-full object-cover"
                     />
                 </Card>
