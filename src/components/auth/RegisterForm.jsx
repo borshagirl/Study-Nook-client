@@ -6,6 +6,7 @@ import { Button, Description, FieldError, Form, Input, Label, TextField} from "@
 import { signUpUser } from "@/lib/auth";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 const RegisterForm = () => {
 
@@ -37,6 +38,7 @@ const RegisterForm = () => {
       );
       return;
     }
+    toast.success("Register Successfully")
 
     router.push("/login");
   };

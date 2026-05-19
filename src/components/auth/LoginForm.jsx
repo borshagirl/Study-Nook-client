@@ -5,6 +5,7 @@ import { Button, FieldError, Form, Input, Label, TextField} from "@heroui/react"
 import { signInUser } from "@/lib/auth";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 
 const LoginForm = () => {
@@ -34,6 +35,7 @@ const LoginForm = () => {
           );
           return;
         }
+        toast.success("Logged In Success")
 
         router.push("/");
     };
