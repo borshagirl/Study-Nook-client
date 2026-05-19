@@ -1,106 +1,164 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { authClient } from "@/lib/auth-client";
 import toast from "react-hot-toast";
+import { authClient } from "@/lib/auth-client";
+
+import EditRoomModal from "@/components/modals/EditRoomModal";
+import DeleteRoomModal from "@/components/modals/DeleteRoomModal";
+import { Button } from "@heroui/react";
 import Image from "next/image";
 
 const MyListings = () => {
 
-  const { data } = authClient.useSession();
-
-  const user = data?.user;
+  const { data: session } = authClient.useSession();
+  const userId = session?.user?.id;
 
   const [rooms, setRooms] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const fetchMyRooms = async () => {
-    try {
-      setLoading(true);
+  const [editRoom, setEditRoom] = useState(null);
+  const [deleteRoom, setDeleteRoom] = useState(null);
+
+  useEffect(() => {
+
+    const fetchRooms = async () => {
+
+      if (!userId) return;
 
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/my-rooms/${user?.id}`,
-        {
-          credentials: "include"
-        }
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/my-rooms/${userId}`
       );
 
       const data = await res.json();
       setRooms(data);
-
-    } catch (err) {
-      toast.error("Failed to load rooms");
-
-    } finally {
       setLoading(false);
+    };
+
+    fetchRooms();
+
+  }, [userId]);
+
+  // UPDATE
+  const handleUpdate = async (id, form) => {
+
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/rooms/${id}`,
+      {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify(form)
+      }
+    );
+
+    if (res.ok) {
+      setRooms(prev =>
+        prev.map(r =>
+          r._id === id ? { ...r, ...form } : r
+        )
+      );
+
+      toast.success("Updated successfully");
+      setEditRoom(null);
     }
   };
 
-  useEffect(() => {
-    if (user?.id) {
-      fetchMyRooms();
+  // DELETE
+  const handleDelete = async (id) => {
+
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/rooms/${id}`,
+      {
+        method: "DELETE",
+        credentials: "include"
+      }
+    );
+
+    if (res.ok) {
+      setRooms(prev => prev.filter(r => r._id !== id));
+      toast.success("Deleted successfully");
+      setDeleteRoom(null);
     }
-  }, [user]);
+  };
+
+  if (loading) return <p className="text-center py-10">Loading...</p>;
 
   return (
     <div className="max-w-6xl mx-auto p-5">
 
-      <h1 className="text-2xl font-bold mb-5">
+      <h1 className="text-3xl font-bold mb-6">
         My Listings
       </h1>
 
-      {loading ? (
-        <p>Loading...</p>
-      ) : rooms.length === 0 ? (
-        <p>No rooms found</p>
-      ) : (
-        <div className="grid md:grid-cols-3 gap-4">
+      <div className="grid md:grid-cols-3 gap-5">
 
-          {rooms.map((room) => (
-            <div key={room._id} className="border p-3 rounded">
-              <Image 
+        {rooms.map(room => (
+          <div key={room._id} className="border p-4 rounded">
+
+            <Image 
                 src={room.image}
                 alt={room.roomName}
-                width={700}
-                height={400} />
+               width={700}
+               height={400}
+            />
 
-              <h2 className="font-bold mt-2">
-                {room.roomName}
-              </h2>
+            <h2 className="font-bold mt-2">
+              {room.roomName}
+            </h2>
 
-              <p className="text-sm text-gray-500">
-                {room.description?.slice(0, 80)}...
-              </p>
+            <p className="text-sm text-gray-600">
+              {room.description}
+            </p>
 
-              <p className="font-bold mt-2">
-                ${room.hourlyRate}/hr
-              </p>
+            <p className="mt-2 text-sm">
+              Floor: {room.floor}
+            </p>
 
-              <p className="text-sm">
-                Bookings: {room.bookingCount}
-              </p>
+            <p className="text-sm">
+              Capacity: {room.capacity}
+            </p>
 
-              <div className="flex gap-2 mt-3">
+            <p className="font-bold">
+              ${room.hourlyRate}/hr
+            </p>
 
-                <button
-                  className="bg-yellow-500 text-white px-3 py-1 rounded"
-                >
-                  Edit
-                </button>
+            <div className="flex gap-2 justify-between mt-3">
 
-                <button
-                  className="bg-red-500 text-white px-3 py-1 rounded"
-                >
-                  Delete
-                </button>
+              <Button
+                onClick={() => setEditRoom(room)}
+              >
+                Edit
+              </Button>
 
-              </div>
+              <Button
+              variant="danger"
+                onClick={() => setDeleteRoom(room)}
+              >
+                Delete
+              </Button>
 
             </div>
-          ))}
 
-        </div>
-      )}
+          </div>
+        ))}
+
+      </div>
+
+      <EditRoomModal
+        room={editRoom}
+        isOpen={!!editRoom}
+        onClose={() => setEditRoom(null)}
+        onUpdate={handleUpdate}
+      />
+
+      <DeleteRoomModal
+        room={deleteRoom}
+        isOpen={!!deleteRoom}
+        onClose={() => setDeleteRoom(null)}
+        onDelete={handleDelete}
+      />
+
     </div>
   );
 };
