@@ -1,61 +1,110 @@
 "use client";
 
-import { Button } from "@heroui/react";
 import Link from "next/link";
+import Image from "next/image";
+import { Avatar, Button, Spinner } from "@heroui/react";
+import { signOutUser, useSession } from "@/lib/auth";
 
 const Navbar = () => {
+    const { data, isPending } = useSession();
 
-    const user = null;
+    const user = data?.user;
+    // console.log(user)
+
+    const handleLogout = async () => {
+        await signOutUser();
+        window.location.reload();
+    };
 
     return (
-        <nav className="bg-[#0F172A] text-white px-6 py-4 flex justify-between items-center">
 
-            {/* Brand */}
-            <Link href="/" className="text-xl font-bold text-indigo-400">
-                StudyNook
+    <nav className="bg-[#0F172A] text-white px-6 py-4">
+        <div className="max-w-7xl mx-auto flex justify-between items-center">
+        <Link href="/" className="text-2xl font-bold text-indigo-400" >
+            StudyNook
+        </Link>
+
+        <div className="flex gap-4 items-center">
+        <Link href="/">
+            Home
+        </Link>
+
+        <Link href="/rooms">
+            Rooms
+        </Link>
+
+        {
+          user && (
+            <>
+            <Link href="/add-room">
+                Add Room
             </Link>
+            
+            <Link href="/my-listings">
+                My Listings
+            </Link>
+            
+            <Link href="/my-bookings">
+                My Bookings
+            </Link>
+            </>
+          )
+        }
+        </div>
 
-            {/* Links */}
-            <div className="flex gap-4">
-                <Link href="/">Home</Link>
-                <Link href="/rooms">Rooms</Link>
+        <div>
+        {
+        isPending ?
+        
+        (
+        <div className="flex flex-col items-center gap-2">
+            <Spinner color="success" />
+            <span className="text-xs text-muted">Success</span>
+      </div>
+        )
 
-                {user && (
-                    <>
-                        <Link href="/add-room">Add Room</Link>
-                        <Link href="/my-listings">My Listings</Link>
-                        <Link href="/my-bookings">My Bookings</Link>
-                    </>
-                )}
-            </div>
-
-            {/* Auth buttons */}
-            <div className="flex gap-3">
-
-                {user ? (
-                    <Button color="primary">
-                        Profile
-                    </Button>
-                ) : (
-                    <>
-                      <Link href={"/login"}>
-                        <Button as={Link} href="/login" variant="bordered">
-                            Login
-                        </Button>
-                      </Link>
-
-                      <Link href={"/register"}>
-                        <Button as={Link} href="/register" color="primary">
-                            Register
-                        </Button>
-                      </Link>
-                    </>
-                )}
-
-            </div>
-
-        </nav>
+        :
+        user ?
+        (
+        <div className="flex items-center gap-3">
+            <Avatar>
+            <Image
+             src={user?.image}
+             alt="profile"
+             width={40}
+             height={40}
+             className="rounded-full"
+            />
+            </Avatar>
+        <p>
+            {user?.name}
+        </p>
+        
+        <Button color="danger" onClick={handleLogout} > 
+            Logout
+        </Button>
+        </div>
+        )
+        :
+        (   
+        <div className="flex gap-3">  
+        <Link href="/login">   
+            <Button variant="bordered">
+                Login
+            </Button>     
+        </Link>
+        <Link href="/register">   
+            <Button color="primary">  
+                Register
+            </Button>    
+        </Link>  
+        </div>
+        )
+        }
+        </div>
+       </div>
+      </nav>
     );
-};
+  };
 
 export default Navbar;
