@@ -6,8 +6,9 @@ import { authClient } from "@/lib/auth-client";
 
 import EditRoomModal from "@/components/modals/EditRoomModal";
 import DeleteRoomModal from "@/components/modals/DeleteRoomModal";
-import { Button } from "@heroui/react";
+import { Button, Spinner } from "@heroui/react";
 import Image from "next/image";
+
 
 const MyListings = () => {
 
@@ -64,7 +65,6 @@ const MyListings = () => {
     }
   };
 
-  // DELETE
   const handleDelete = async (id) => {
 
     const res = await fetch(
@@ -82,7 +82,10 @@ const MyListings = () => {
     }
   };
 
-  if (loading) return <p className="text-center py-10">Loading...</p>;
+  if (loading) return <div className="flex flex-col items-center gap-2">
+              <Spinner color="success" />
+              <span className="text-xs text-muted">Loading</span>
+        </div>;
 
   return (
     <div className="max-w-6xl mx-auto p-5">

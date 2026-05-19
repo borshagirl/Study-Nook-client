@@ -52,14 +52,13 @@ const RoomCard = ({ room }) => {
                 ))}
             </div>
 
-            {/* FIX */}
             <Link
                 href={`/rooms/${room._id}`}
                 className="block mt-6"
             >
-                <button className="w-full bg-blue-600 text-white py-5 rounded-lg">
+                <Button variant="primary" className={"w-full"}>
                     View Details
-                </button>
+                </Button>
             </Link>
 
         </Card>

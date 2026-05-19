@@ -1,5 +1,13 @@
 import RoomList from "@/components/rooms/RoomList";
 
+
+export const metadata = {
+  title: "StudyNook-Available Rooms",
+  description:
+    "Browse all available study rooms, filter by amenities, floor and price, and book instantly.",
+};
+
+
 const RoomsPage = async ({ searchParams }) => {
 
     const params = await searchParams;

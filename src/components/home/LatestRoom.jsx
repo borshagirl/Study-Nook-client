@@ -94,14 +94,14 @@ const LatestRooms = async () => {
                                             )
                                         }
                                     </div>
-    <Link
-    href={`/rooms/${room._id}`}
-    className="block mt-6"
->
-    <button className="w-full bg-blue-600 text-white py-2 rounded-lg">
-        View Details
-    </button>
-</Link>
+                                        <Link
+                                            href={`/rooms/${room._id}`}
+                                            className="block mt-6"
+                                        >
+                                            <Button variant="primary" className={"w-full"}>
+                                                View Details
+                                            </Button>
+                                        </Link>
                                 </div>
                             </Card>
                         ))

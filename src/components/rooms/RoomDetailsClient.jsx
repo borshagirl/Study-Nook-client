@@ -7,6 +7,7 @@ import { Button, Chip } from "@heroui/react";
 import { IoIosSchool } from "react-icons/io";
 import { ImManWoman } from "react-icons/im";
 import BookingSection from "./BookingSection";
+import { BiRightArrowAlt } from "react-icons/bi";
 
 const RoomDetailsClient = ({ room }) => {
 
@@ -22,7 +23,6 @@ const RoomDetailsClient = ({ room }) => {
             return;
         }
 
-        // SAFE SCROLL (no crash if element not found)
         const el = document.getElementById("booking-section");
 
         if (el) {
@@ -36,7 +36,6 @@ const RoomDetailsClient = ({ room }) => {
 
             <div className="grid md:grid-cols-2 gap-12">
 
-                {/* IMAGE */}
                 <Image
                     src={room.image}
                     alt={room.roomName}
@@ -46,7 +45,6 @@ const RoomDetailsClient = ({ room }) => {
                     className="w-full h-auto rounded-xl object-cover"
                 />
 
-                {/* DETAILS */}
                 <div>
 
                     <h1 className="text-4xl font-bold">
@@ -77,7 +75,6 @@ const RoomDetailsClient = ({ room }) => {
 
                     </div>
 
-                    {/* AMENITIES */}
                     <div className="flex flex-wrap gap-2 mt-6">
                         {room.amenities?.map((item, i) => (
                             <Chip key={i} color="primary">
@@ -86,14 +83,13 @@ const RoomDetailsClient = ({ room }) => {
                         ))}
                     </div>
 
-                    {/* BOOK BUTTON */}
                     <div className="mt-8 flex gap-4">
 
                         <Button
                             onClick={handleBookClick}
                             color="primary"
                         >
-                            Book Now
+                            Book Now <BiRightArrowAlt />
                         </Button>
 
                     </div>
@@ -102,7 +98,6 @@ const RoomDetailsClient = ({ room }) => {
 
             </div>
 
-            {/* BOOKING SECTION */}
             <BookingSection room={room}></BookingSection>
         </div>
     );

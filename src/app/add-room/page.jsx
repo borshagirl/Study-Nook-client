@@ -3,6 +3,8 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { authClient } from "@/lib/auth-client";
+import { Button } from "@heroui/react";
+
 
 const AddRoom = () => {
 
@@ -103,7 +105,7 @@ const AddRoom = () => {
     };
   
   return (
-    <div className="max-w-2xl mx-auto p-5">
+    <div className="max-w-2xl mx-auto p-5 shadow-2xl">
 
       <h1 className="text-2xl font-bold mb-5">
         Add Study Room
@@ -169,12 +171,12 @@ const AddRoom = () => {
           ))}
         </div>
 
-        <button
+        <Button
           disabled={loading}
           className="bg-blue-600 text-white w-full py-2 rounded"
         >
           {loading ? "Adding..." : "Add Room"}
-        </button>
+        </Button>
 
       </form>
     </div>
