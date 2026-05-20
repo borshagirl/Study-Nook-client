@@ -10,6 +10,8 @@ const AddRoom = () => {
 
     const { data: session } = authClient.useSession();
     const user = session?.user;
+
+    console.log(user)
   
     const [loading, setLoading] = useState(false);
   
@@ -172,6 +174,7 @@ const AddRoom = () => {
         </div>
 
         <Button
+          type="submit"
           disabled={loading}
           className="bg-blue-600 text-white w-full py-2 rounded"
         >

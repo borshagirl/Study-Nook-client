@@ -110,12 +110,15 @@ const MyBookings = () => {
                 className="border p-4 rounded-xl shadow"
               >
 
-                <Image 
-                    src={booking?.image}
-                    alt={booking?.roomName}
-                    width={700}
-                    height={400}
-                 />
+              {booking.image && (
+                <Image
+                  src={booking.image}
+                  alt={booking.roomName}
+                  width={700}
+                  height={400}
+                  className="w-full h-52 object-cover rounded-lg"
+                />
+              )}
 
                 <h2 className="font-bold text-lg">
                   {booking.roomName}

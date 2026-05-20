@@ -7,6 +7,8 @@ import { signUpUser } from "@/lib/auth";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import GoogleLoginButton from "./GoogleLoginButton";
+import Link from "next/link";
 
 const RegisterForm = () => {
 
@@ -123,7 +125,7 @@ const RegisterForm = () => {
             </p>
           )
         }
-        <div className="flex gap-2">
+        <div className="flex justify-between gap-2">
           <Button
             type="submit"
             color="primary"
@@ -139,6 +141,13 @@ const RegisterForm = () => {
           </Button>
         </div>
       </Form>
+
+      <p className="text-gray-600 text-center mt-3">Or Continue With</p>
+
+      <GoogleLoginButton></GoogleLoginButton>
+
+      <p className="mt-3">Already have an account? <Link href={"/login"}>Login</Link></p>
+
     </div>
   );
 };

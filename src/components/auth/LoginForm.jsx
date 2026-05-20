@@ -6,6 +6,8 @@ import { signInUser } from "@/lib/auth";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import GoogleLoginButton from "./GoogleLoginButton";
+import Link from "next/link";
 
 
 const LoginForm = () => {
@@ -74,11 +76,18 @@ const LoginForm = () => {
         </p>
         }
 
-        <Button type="submit" color="primary" >
+        <Button className={"w-full"} type="submit" variant="primary" >
             <Check/>
             Login
         </Button>
         </Form>
+
+        <p className="text-gray-600 text-center mt-3">Or Continue With</p>
+
+        <GoogleLoginButton></GoogleLoginButton>
+
+        <p className="mt-3">Don't have an account? <Link href={"/register"}>Register</Link></p>
+
     </div>
 
    );

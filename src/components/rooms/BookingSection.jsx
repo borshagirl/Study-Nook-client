@@ -27,6 +27,7 @@ const BookingSection = ({ room }) => {
         const bookingData = {
             roomId: room._id,
             roomName: room.roomName,
+            image: room.image,
             userId: user?.id,
             date,
             startHour: start,
