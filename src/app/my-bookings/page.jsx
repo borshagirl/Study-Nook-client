@@ -18,7 +18,10 @@ const MyBookings = () => {
 
     const fetchBookings = async () => {
 
-      if (!userId) return;
+      if (!userId) {
+       setLoading(false);
+       return;
+     }
 
       try {
 
@@ -26,8 +29,9 @@ const MyBookings = () => {
           `${process.env.NEXT_PUBLIC_SERVER_URL}/my-bookings/${userId}`
         );
 
-        const data = await res.json();
-        setBookings(data);
+       const data = await res.json();
+       console.log("Booking API:", data);
+        setBookings(Array.isArray(data) ? data : [])
 
       } catch (error) {
         toast.error("Failed to load bookings");
@@ -41,40 +45,28 @@ const MyBookings = () => {
 
   }, [userId]);
 
-  const handleCancel = async (id) => {
+ const handleCancel = async (id) => {
+  const confirm = window.confirm("Cancel this booking?");
+  if (!confirm) return;
 
-    const confirm = window.confirm("Cancel this booking?");
-    if (!confirm) return;
-
-    try {
-
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/bookings/${id}/cancel`,
-        {
-          method: "PATCH",
-          credentials: "include"
-        }
-      );
-
-      if (!res.ok) {
-        throw new Error("Cancel failed");
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/bookings/${id}/cancel`,
+      {
+        method: "PATCH",
+        credentials: "include",
       }
+    );
 
-      setBookings(prev =>
-        prev.map(b =>
-          b._id === id
-            ? { ...b, status: "cancelled" }
-            : b
-        )
-      );
+    if (!res.ok) throw new Error("Cancel failed");
 
-      toast.success("Booking cancelled");
+    setBookings((prev) => prev.filter((b) => b._id !== id));
 
-    } catch (error) {
-      toast.error(error.message);
-    }
-
-  };
+    toast.success("Booking removed");
+  } catch (error) {
+    toast.error(error.message);
+  }
+};
 
   if (loading) {
     return (
@@ -91,25 +83,18 @@ const MyBookings = () => {
       <h1 className="text-3xl font-bold mb-6">
         My Bookings
       </h1>
-
       {
         bookings.length === 0 ? (
-
-          <p className="text-gray-500">
-            You have no bookings yet
+          <p className="text-gray-500 text-lg font-bold">
+            You have no <span className="text-black text-xl">bookings</span> yet!
           </p>
-
         ) : (
-
           <div className="grid md:grid-cols-2 gap-5">
-
             {bookings.map(booking => (
-
               <div
                 key={booking._id}
                 className="border p-4 rounded-xl shadow"
               >
-
               {booking.image && (
                 <Image
                   src={booking.image}
@@ -119,23 +104,18 @@ const MyBookings = () => {
                   className="w-full h-52 object-cover rounded-lg"
                 />
               )}
-
                 <h2 className="font-bold text-lg">
                   {booking.roomName}
                 </h2>
-
                 <p className="text-sm mt-1">
                   Date: {booking.date}
                 </p>
-
                 <p className="text-sm">
                   Time: {booking.startHour}:00 - {booking.endHour}:00
                 </p>
-
                 <p className="text-sm mt-1">
                   Note: {booking.specialNote || "N/A"}
                 </p>
-
                 <p className="mt-2">
                   Status:
                   <span className={
@@ -146,26 +126,16 @@ const MyBookings = () => {
                     {booking.status}
                   </span>
                 </p>
-
-                {
-                  booking.status === "confirmed" && (
-                    <Button
-                      onClick={() => handleCancel(booking._id)}
-                    >
-                      Cancel Booking
-                    </Button>
-                  )
-                }
-
+           {booking.status !== "cancelled" && (
+              <Button variant="danger" onClick={() => handleCancel(booking._id)}>
+                Cancel Booking
+              </Button>
+             )}
               </div>
-
             ))}
-
           </div>
-
         )
       }
-
     </div>
   );
 };

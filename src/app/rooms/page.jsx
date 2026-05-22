@@ -16,13 +16,14 @@ const RoomsPage = async ({ searchParams }) => {
     const amenity = params?.amenity || "";
 
     const res = await fetch(
-        `http://localhost:5000/rooms?search=${search}&amenity=${amenity}`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/rooms?search=${search}&amenity=${amenity}`,
         {
             cache: "no-store"
         }
     );
 
-    const rooms = await res.json();
+    const data = await res.json();
+     const rooms = Array.isArray(data) ? data : [];
 
     return (
 

@@ -27,20 +27,29 @@ const MyListings = () => {
 
       if (!userId) return;
 
+     try {
+      setLoading(true);
+
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/my-rooms/${userId}`
       );
 
       const data = await res.json();
-      setRooms(data);
+
+      setRooms(Array.isArray(data) ? data : []);
+
+    } catch (err) {
+      toast.error("Failed to load rooms");
+      setRooms([]);
+    } finally {
       setLoading(false);
-    };
+    }
+  };
 
-    fetchRooms();
+  fetchRooms();
+}, [userId]);
 
-  }, [userId]);
 
-  // UPDATE
   const handleUpdate = async (id, form) => {
 
     const res = await fetch(
@@ -93,6 +102,13 @@ const MyListings = () => {
       <h1 className="text-3xl font-bold mb-6">
         My Listings
       </h1>
+
+         {rooms.length === 0 && !loading && (
+           <p className="text-gray-500 text-lg font-bold">
+             You have no <span className="text-black text-xl">listings</span> yet!
+           </p>
+         )}
+
 
       <div className="grid md:grid-cols-3 gap-5">
 

@@ -82,22 +82,16 @@ const RoomDetailsClient = ({ room }) => {
                             </Chip>
                         ))}
                     </div>
-
                     <div className="mt-8 flex gap-4">
-
                         <Button
                             onClick={handleBookClick}
                             color="primary"
                         >
                             Book Now <BiRightArrowAlt />
                         </Button>
-
                     </div>
-
                 </div>
-
             </div>
-
             <BookingSection room={room}></BookingSection>
         </div>
     );

@@ -16,18 +16,17 @@ export async function generateMetadata({ params }) {
     const room = await res.json();
 
     return {
-      title: `StudyNook – ${room.roomName}`,
+      title: `StudyNook-${room.roomName}`,
       description: room.description?.slice(0, 150),
     };
 
   } catch (error) {
     return {
-      title: "StudyNook – Room Details",
+      title: "StudyNook-Room Details",
       description: "View study room details",
     };
   }
 }
-
 
 const RoomDetailsPage = async ({ params }) => {
 

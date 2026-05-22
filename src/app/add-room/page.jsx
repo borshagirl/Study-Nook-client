@@ -4,12 +4,15 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { authClient } from "@/lib/auth-client";
 import { Button } from "@heroui/react";
+import { useRouter } from "next/navigation";
 
 
 const AddRoom = () => {
 
     const { data: session } = authClient.useSession();
     const user = session?.user;
+
+    const router = useRouter();
 
     console.log(user)
   
@@ -65,7 +68,7 @@ const AddRoom = () => {
       
         const payload = {
           ...form,
-          ownerId: user.id || user._id
+          ownerId: session?.user?.id
         };
       
         const res = await fetch(
@@ -97,6 +100,8 @@ const AddRoom = () => {
           hourlyRate: "",
           amenities: []
         });
+
+        router.push("/my-listings");
       
       } catch (error) {
         toast.error(error.message);

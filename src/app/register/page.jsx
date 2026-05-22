@@ -10,9 +10,7 @@ export const metadata = {
 const RegisterPage = () => {
     return (
          <div className="min-h-screen flex items-center justify-center">
-
             <RegisterForm></RegisterForm>
-
         </div>
     );
 };

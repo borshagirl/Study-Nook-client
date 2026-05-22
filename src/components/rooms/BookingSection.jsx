@@ -5,10 +5,14 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { useSession } from "@/lib/auth";
 
+import { useRouter } from "next/navigation";
+
 const BookingSection = ({ room }) => {
 
     const { data } = useSession();
     const user = data?.user;
+
+    const router = useRouter();
 
     const [date, setDate] = useState("");
     const [start, setStart] = useState(8);
@@ -44,9 +48,10 @@ const BookingSection = ({ room }) => {
         });
 
         const data = await res.json();
-
         if (res.ok) {
             toast.success("Room booked successfully");
+        
+            router.push("/my-bookings"); 
         } else {
             toast.error(data.message || "Booking failed");
         }

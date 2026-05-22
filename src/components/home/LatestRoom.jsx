@@ -7,36 +7,46 @@ import { IoIosSchool } from "react-icons/io";
 
 const LatestRooms = async () => {
 
-       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/rooms/latest`,
-        {
-            cache: "no-store"
-        }
-    );
+    
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SERVER_URL}/rooms/latest`,
+    {
+        cache: "no-store"
+    }
+);
 
-    const rooms = await res.json();
+if (!res.ok) {
+    const error = await res.text();
+    console.log(error);
+
+    return <div>Failed to load rooms</div>;
+}
+
+    let rooms;
+
+    try {
+        rooms = await res.json();
+    } catch (err) {
+        throw new Error("Invalid JSON from server");
+    }
 
     return (
-
         <section className="py-20">
             <div className="max-w-7xl mx-auto px-6">
+
                 <div className="text-center">
                     <h1 className="text-4xl font-bold">
                         Available Study Rooms
                     </h1>
                     <p className="text-gray-500 mt-4">
-                        Explore our latest study spaces and find
-                        your ideal learning environment.
+                        Explore our latest study spaces and find your ideal learning environment.
                     </p>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-10">
                     {
                         rooms?.map(room => (
-                            <Card
-                                key={room._id}
-                                className="p-4 h-full"
-                            >
+                            <Card key={room._id} className="p-4 h-full">
 
                                 <Image
                                     src={room?.image || "/placeholder.jpg"}
@@ -50,30 +60,31 @@ const LatestRooms = async () => {
                                     <h2 className="text-2xl font-bold">
                                         {room.roomName}
                                     </h2>
-                                    <p className="text-gray-500 mt-3">
-                                        {
-                                            room.description.length > 50
-                                            ?
-                                            room.description.slice(0, 80)+"..."
-                                            :
-                                            room.description
-                                        }
-                                    </p>
-                                     <div className="mt-4">
-                                                    <p className="flex items-center gap-1"><IoIosSchool /> {room.floor}</p>
-                                                    <p className="flex items-center gap-1"><ImManWoman /> {room.capacity}</p>
-                                                    <p className="text-xl font-bold">$ {room.hourlyRate}/hr</p>
-                                                </div>
+
+                                   <p className="text-gray-500 mt-3">
+                                       {
+                                           room.description?.length > 50
+                                               ? room.description.slice(0, 80) + "..."
+                                               : room.description
+                                       }
+                                     </p>
+
+                                    <div className="mt-4">
+                                        <p className="flex items-center gap-1">
+                                            <IoIosSchool /> {room.floor}
+                                        </p>
+                                        <p className="flex items-center gap-1">
+                                            <ImManWoman /> {room.capacity}
+                                        </p>
+                                        <p className="text-xl font-bold">
+                                            $ {room.hourlyRate}/hr
+                                        </p>
+                                    </div>
+
                                     <div className="flex flex-wrap gap-2 mt-5">
                                         {
-                                            room.amenities
-                                            ?.slice(0,3)
-                                            .map(item => (
-                                                <Chip
-                                                    key={item}
-                                                    color="primary"
-                                                    size="sm"
-                                                >
+                                            room.amenities?.slice(0, 3).map(item => (
+                                                <Chip key={item} color="primary" size="sm">
                                                     {item}
                                                 </Chip>
                                             ))
@@ -81,27 +92,19 @@ const LatestRooms = async () => {
 
                                         {
                                             room.amenities?.length > 3 && (
-                                                <Chip
-                                                    size="sm"
-                                                >
-                                                    +
-                                                    {
-                                                        room.amenities.length - 3
-                                                    }
-                                                    {" "}
-                                                    more
+                                                <Chip size="sm">
+                                                    +{room.amenities.length - 3} more
                                                 </Chip>
                                             )
                                         }
                                     </div>
-                                        <Link
-                                            href={`/rooms/${room._id}`}
-                                            className="block mt-6"
-                                        >
-                                            <Button variant="primary" className={"w-full"}>
-                                                View Details
-                                            </Button>
-                                        </Link>
+
+                                    <Link href={`/rooms/${room._id}`} className="block mt-6">
+                                        <Button className="w-full">
+                                            View Details
+                                        </Button>
+                                    </Link>
+
                                 </div>
                             </Card>
                         ))
@@ -110,7 +113,6 @@ const LatestRooms = async () => {
             </div>
         </section>
     );
-
 };
 
 export default LatestRooms;
