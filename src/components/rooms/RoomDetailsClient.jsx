@@ -37,8 +37,8 @@ const RoomDetailsClient = ({ room }) => {
             <div className="grid md:grid-cols-2 gap-12">
 
                 <Image
-                    src={room.image}
-                    alt={room.roomName}
+                    src={room?.image?.trim() || "/placeholder.jpg"}
+                    alt={room?.roomName || "Room image"}
                     width={700}
                     height={500}
                     priority

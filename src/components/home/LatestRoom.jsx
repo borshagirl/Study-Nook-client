@@ -39,8 +39,8 @@ const LatestRooms = async () => {
                             >
 
                                 <Image
-                                    src={room.image}
-                                    alt={room.roomName}
+                                    src={room?.image || "/placeholder.jpg"}
+                                    alt={room?.roomName || "Room image"}
                                     width={500}
                                     height={250}
                                     className="w-full h-[220px] rounded-xl object-cover"

@@ -9,8 +9,8 @@ const RoomCard = ({ room }) => {
         <Card className="p-4">
 
             <Image
-                src={room.image}
-                alt={room.roomName}
+                src={room?.image?.trim() || "/placeholder.jpg"}
+                alt={room?.roomName || "Room image"}
                 width={500}
                 height={300}
                 className="w-full h-55 rounded-xl object-cover"
