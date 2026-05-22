@@ -1,14 +1,37 @@
 
 import { authClient } from "./auth-client";
 
-export const signUpUser = async(data)=>{
-    return await authClient.signUp.email({
-        name:data.name,
-        email:data.email,
-        password:data.password,
-        image:data.image
-    });
+// export const signUpUser = async(data)=>{
+//     return await authClient.signUp.email({
+//         name:data.name,
+//         email:data.email,
+//         password:data.password,
+//         image:data.image
+//     });
+// };
+
+
+
+export const signUpUser = async(data) => {
+    try {
+        const result = await authClient.signUp.email({
+            name: data.name,
+            email: data.email,
+            password: data.password,
+            image: data.image,
+        });
+
+        console.log("Signup Result:", result);
+
+        return result;
+
+    } catch(error) {
+        console.log("Signup Error:", error);
+        return { error };
+    }
 };
+
+
 
 
 export const signInUser = async(data)=>{

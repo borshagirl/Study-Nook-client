@@ -86,7 +86,7 @@ const LoginForm = () => {
 
         <GoogleLoginButton></GoogleLoginButton>
 
-        <p className="mt-3">Do not have an account? <Link href={"/register"}>Register</Link></p>
+        <p className="mt-3 text-center">Do not have an account? <Link className="text-red-500 font-semibold" href={"/register"}>Register</Link></p>
 
     </div>
 

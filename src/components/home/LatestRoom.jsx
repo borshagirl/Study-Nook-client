@@ -7,8 +7,8 @@ import { IoIosSchool } from "react-icons/io";
 
 const LatestRooms = async () => {
 
-    const res = await fetch(
-        "http://localhost:5000/rooms/latest",
+       const res = await fetch(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/rooms/latest`,
         {
             cache: "no-store"
         }

@@ -146,7 +146,7 @@ const RegisterForm = () => {
 
       <GoogleLoginButton></GoogleLoginButton>
 
-      <p className="mt-3">Already have an account? <Link href={"/login"}>Login</Link></p>
+      <p className="mt-3 flex gap-2 text-center">Already have an account? <Link className="text-red-500 font-semibold" href={"/login"}>Login</Link></p>
 
     </div>
   );
