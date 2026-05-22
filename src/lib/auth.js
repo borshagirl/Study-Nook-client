@@ -11,7 +11,6 @@ import { authClient } from "./auth-client";
 // };
 
 
-
 export const signUpUser = async(data) => {
     try {
         const result = await authClient.signUp.email({
