@@ -15,15 +15,20 @@ const RoomsPage = async ({ searchParams }) => {
     const search = params?.search || "";
     const amenity = params?.amenity || "";
 
-    const res = await fetch(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/rooms?search=${search}&amenity=${amenity}`,
-        {
-            cache: "no-store"
-        }
-    );
+   const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SERVER_URL}/rooms?search=${search}&amenity=${amenity}`,
+    {
+        cache: "no-store"
+    }
+  );
 
+    if (!res.ok) {
+        throw new Error("Failed to fetch rooms");
+    }
+    
     const data = await res.json();
-     const rooms = Array.isArray(data) ? data : [];
+    
+    const rooms = Array.isArray(data) ? data : [];
 
     return (
 

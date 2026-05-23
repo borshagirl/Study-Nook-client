@@ -86,8 +86,8 @@ const RoomDetailsClient = ({ room }) => {
                         <Button
                             onClick={handleBookClick}
                             color="primary"
-                        >
-                            Book Now <BiRightArrowAlt />
+                         >
+                            Book Now<BiRightArrowAlt />
                         </Button>
                     </div>
                 </div>
