@@ -1,4 +1,3 @@
-
 "use client";
 
 import { authClient } from "@/lib/auth-client";
@@ -8,21 +7,19 @@ import { FaGoogle } from "react-icons/fa";
 const GoogleLoginButton = () => {
 
   const handleGoogleLogin = async () => {
-
     await authClient.signIn.social({
       provider: "google",
-      callbackURL: "http://localhost:3000"
+      callbackURL: "/"
     });
-
   };
 
   return (
-    <Button 
-      variant="outline"
+    <Button variant="outline"
       onClick={handleGoogleLogin}
-      className={"mt-4 w-full"}
+      className="mt-4 w-full"
     >
-      <FaGoogle /> Google
+      <FaGoogle />
+      Continue with Google
     </Button>
   );
 };
